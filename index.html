@@ -650,9 +650,8 @@
 </head>
 <body>
 
-  <!-- EDITE AQUI: Coloque o arquivo de áudio (ex: trecho-luan.mp3) na mesma pasta do index.html no GitHub -->
-  <!-- Se quiser começar direto no segundo exato desse trecho, altere MUSIC_START_SECONDS abaixo -->
-  <audio id="finalSong" src="trecho-luan.mp3" preload="auto"></audio>
+  <!-- EDITE AQUI: Se o arquivo na sua pasta tiver outro nome, altere o src abaixo -->
+  <audio id="finalSong" src="Luan Santana - Tudo Que Você Quiser (O Nosso Tempo É Hoje - Vídeo Oficial) - Luan Santana.mp3" preload="auto"></audio>
 
   <!-- Poeira de luz ambiente na mesa -->
   <div class="ambient-particles" id="ambientParticles"></div>
@@ -803,7 +802,7 @@
           </svg>
         </div>
 
-        <!-- Interação final: Guardar promessa + Música + P.S. -->
+        <!-- Interação final: Música + Promessa + P.S. -->
         <div class="final-interactive-area">
           <div class="final-buttons">
             <button class="btn-promise" id="promiseBtn" type="button" onclick="keepPromise(event)">
@@ -818,7 +817,7 @@
           </div>
 
           <div class="music-status" id="musicStatus">
-            ♪ Tocando a música do final — Te Vivo (Luan Santana)
+            ♪ Tocando o trecho do final — Luan Santana (a partir de 01:28)
           </div>
 
           <div class="promise-confirmation" id="promiseConfirmation">
@@ -836,8 +835,8 @@
   </main>
 
   <script>
-    // EDITE AQUI: Tempo inicial em segundos caso use um arquivo completo (0 = começa do início do arquivo)
-    const MUSIC_START_SECONDS = 0;
+    // Ponto exato da estrofe ("Tem gente que tem cheiro de rosa, de avelã...") na faixa enviada
+    const MUSIC_START_SECONDS = 88;
 
     let soundEnabled = true;
     let audioCtx = null;
@@ -932,24 +931,33 @@
       }
     }
 
-    // Reprodução da música do final
+    // Reprodução da música do final a partir do ponto exato
     const finalSong = document.getElementById("finalSong");
     const musicBtn = document.getElementById("musicBtn");
     const musicStatus = document.getElementById("musicStatus");
 
+    function seekToChorusStart() {
+      if (!finalSong) return;
+      try {
+        if (finalSong.readyState >= 1) {
+          finalSong.currentTime = MUSIC_START_SECONDS;
+        } else {
+          finalSong.addEventListener("loadedmetadata", () => {
+            finalSong.currentTime = MUSIC_START_SECONDS;
+          }, { once: true });
+        }
+      } catch (e) {}
+    }
+
     function startFinalSong(forcePlay = false) {
       if (!finalSong) return;
-      if (MUSIC_START_SECONDS > 0 && finalSong.currentTime < MUSIC_START_SECONDS) {
-        finalSong.currentTime = MUSIC_START_SECONDS;
-      }
       if (forcePlay || finalSong.paused) {
+        seekToChorusStart();
         finalSong.play().then(() => {
           musicBtn.classList.add("playing");
           musicBtn.textContent = "❚❚ Pausar música";
           musicStatus.classList.add("visible");
-        }).catch(() => {
-          // Caso o arquivo ainda não exista no repositório, mantém o botão disponível
-        });
+        }).catch(() => {});
       }
     }
 

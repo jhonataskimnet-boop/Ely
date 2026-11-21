@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Para Você — Uma Carta Guardada</title>
-  <!-- Favicon embutido em SVG para evitar erro 404 na consola -->
+  <!-- Favicon embutido em SVG para evitar erro 404 no console -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
   <style>
     :root {
@@ -497,7 +497,7 @@
       display: none;
     }
 
-    /* ==================== INTERAÇÃO FINAL: MÚSICA, PROMESSA & P.S. ==================== */
+    /* ==================== INTERAÇÃO FINAL: PROMESSA & P.S. ==================== */
     .final-interactive-area {
       margin-top: 26px;
       padding-top: 20px;
@@ -538,7 +538,7 @@
       box-shadow: 0 6px 18px rgba(53, 79, 47, 0.3);
     }
 
-    .btn-ps, .btn-music {
+    .btn-ps {
       background: transparent;
       border: 1px dashed #8b6f52;
       color: #5c4e43;
@@ -550,28 +550,9 @@
       transition: all 0.25s ease;
     }
 
-    .btn-ps:hover, .btn-music:hover {
+    .btn-ps:hover {
       background: rgba(168, 136, 98, 0.14);
       color: #2c241e;
-    }
-
-    .btn-music.playing {
-      background: rgba(142, 36, 36, 0.12);
-      border-style: solid;
-      border-color: #8e2424;
-      color: #6b1717;
-      font-weight: 600;
-    }
-
-    .music-status {
-      font-size: 13.5px;
-      color: var(--ink-soft);
-      font-style: italic;
-      display: none;
-    }
-
-    .music-status.visible {
-      display: block;
     }
 
     .ps-note-box {
@@ -650,16 +631,16 @@
 </head>
 <body>
 
-  <!-- EDITE AQUI: Renomeia o ficheiro de áudio para musica.mp3 na mesma pasta do index.html ou ajusta o src -->
-  <audio id="finalSong" src="musica.mp3" preload="metadata"></audio>
-
   <!-- Poeira de luz ambiente na mesa -->
   <div class="ambient-particles" id="ambientParticles"></div>
 
-  <!-- Controle de som sutil de papel -->
+  <!-- Controle de som suave de fundo e papel -->
   <div class="top-bar">
+    <button class="sound-btn" id="ambientSoundToggle" type="button" title="Ativar ou pausar o toque suave de fundo">
+      🌙 Fundo suave: Ligado
+    </button>
     <button class="sound-btn" id="soundToggle" type="button" title="Ativar ou silenciar som de papel">
-      🔊 Som de papel: Ligado
+      📄 Papel: Ligado
     </button>
   </div>
 
@@ -672,12 +653,12 @@
 
         <div class="wax-seal">
           <!-- EDITE AQUI: Troque a letra inicial no selo de cera -->
-          <span class="wax-initial">❤️</span>
+          <span class="wax-initial">♥</span>
         </div>
 
         <div class="envelope-front-text">
           <!-- EDITE AQUI: Nome ou apelido dela -->
-          <div class="envelope-recipient">Raely</div>
+          <div class="envelope-recipient">Para você</div>
           <div class="envelope-subtitle">Abra devagar — foi escrito sem pressa</div>
         </div>
       </div>
@@ -802,22 +783,15 @@
           </svg>
         </div>
 
-        <!-- Interação final: Música + Promessa + P.S. -->
+        <!-- Interação final: Guardar promessa + P.S. -->
         <div class="final-interactive-area">
           <div class="final-buttons">
             <button class="btn-promise" id="promiseBtn" type="button" onclick="keepPromise(event)">
               ♥ Guardar essa promessa
             </button>
-            <button class="btn-music" id="musicBtn" type="button" onclick="toggleFinalSong()">
-              ♪ Tocar música do final
-            </button>
             <button class="btn-ps" type="button" onclick="togglePS()">
               Ler o P.S. dobrado no canto
             </button>
-          </div>
-
-          <div class="music-status" id="musicStatus">
-            ♪ Tocando o trecho do final — Luan Santana (a partir de 01:28)
           </div>
 
           <div class="promise-confirmation" id="promiseConfirmation">
@@ -835,30 +809,114 @@
   </main>
 
   <script>
-    // Ponto de partida do trecho na faixa enviada[cite: 3]
-    const MUSIC_START_SECONDS = 88;
-
-    let soundEnabled = true;
+    let paperSoundEnabled = true;
+    let ambientSoundEnabled = true;
     let audioCtx = null;
+    let ambientNodes = null;
 
     const soundToggle = document.getElementById("soundToggle");
+    const ambientSoundToggle = document.getElementById("ambientSoundToggle");
+
+    function ensureAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Toque suave e calmo de fundo (acorde harmônico abafado, sem arquivos externos)
+    function startAmbientPad(warmBoost = false) {
+      if (!ambientSoundEnabled) return;
+      try {
+        const ctx = ensureAudioContext();
+        const targetGain = warmBoost ? 0.032 : 0.018;
+
+        if (ambientNodes) {
+          ambientNodes.masterGain.gain.setTargetAtTime(targetGain, ctx.currentTime, 0.8);
+          return;
+        }
+
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        masterGain.gain.setTargetAtTime(targetGain, ctx.currentTime, 1.4);
+
+        const lowpass = ctx.createBiquadFilter();
+        lowpass.type = "lowpass";
+        lowpass.frequency.setValueAtTime(420, ctx.currentTime);
+        lowpass.Q.setValueAtTime(0.6, ctx.currentTime);
+
+        // Notas suaves de Fmaj7 / C (F3, A3, E4)
+        const freqs = [174.61, 220.0, 329.63];
+        const oscs = freqs.map((freq, idx) => {
+          const osc = ctx.createOscillator();
+          osc.type = idx === 0 ? "sine" : "triangle";
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+          const voiceGain = ctx.createGain();
+          voiceGain.gain.setValueAtTime(idx === 0 ? 0.45 : 0.22, ctx.currentTime);
+
+          // Respiração lenta e suave no volume
+          const lfo = ctx.createOscillator();
+          lfo.type = "sine";
+          lfo.frequency.setValueAtTime(0.08 + idx * 0.02, ctx.currentTime);
+
+          const lfoGain = ctx.createGain();
+          lfoGain.gain.setValueAtTime(0.04, ctx.currentTime);
+
+          lfo.connect(lfoGain);
+          lfoGain.connect(voiceGain.gain);
+
+          osc.connect(voiceGain);
+          voiceGain.connect(lowpass);
+
+          osc.start();
+          lfo.start();
+
+          return { osc, lfo };
+        });
+
+        lowpass.connect(masterGain);
+        masterGain.connect(ctx.destination);
+
+        ambientNodes = { masterGain, oscs };
+      } catch (e) {
+        // Ignora caso o navegador bloqueie áudio antes de interação
+      }
+    }
+
+    function stopAmbientPad() {
+      if (!ambientNodes || !audioCtx) return;
+      try {
+        ambientNodes.masterGain.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.35);
+      } catch (e) {}
+    }
+
+    ambientSoundToggle.addEventListener("click", () => {
+      ambientSoundEnabled = !ambientSoundEnabled;
+      if (ambientSoundEnabled) {
+        ambientSoundToggle.textContent = "🌙 Fundo suave: Ligado";
+        startAmbientPad(false);
+      } else {
+        ambientSoundToggle.textContent = "🌙 Fundo suave: Desligado";
+        stopAmbientPad();
+      }
+    });
+
     soundToggle.addEventListener("click", () => {
-      soundEnabled = !soundEnabled;
-      soundToggle.textContent = soundEnabled ? "🔊 Som de papel: Ligado" : "🔇 Som de papel: Mudo";
+      paperSoundEnabled = !paperSoundEnabled;
+      soundToggle.textContent = paperSoundEnabled ? "📄 Papel: Ligado" : "📄 Papel: Mudo";
     });
 
     function playPaperSound() {
-      if (!soundEnabled) return;
+      if (!paperSoundEnabled) return;
       try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === "suspended") {
-          audioCtx.resume();
-        }
+        const ctx = ensureAudioContext();
         const duration = 0.22;
-        const bufferSize = audioCtx.sampleRate * duration;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
 
         for (let i = 0; i < bufferSize; i++) {
@@ -866,22 +924,23 @@
           data[i] = (Math.random() * 2 - 1) * envelope * 0.14;
         }
 
-        const noise = audioCtx.createBufferSource();
+        const noise = ctx.createBufferSource();
         noise.buffer = buffer;
 
-        const filter = audioCtx.createBiquadFilter();
+        const filter = ctx.createBiquadFilter();
         filter.type = "bandpass";
         filter.frequency.value = 1350;
         filter.Q.value = 0.9;
 
         noise.connect(filter);
-        filter.connect(audioCtx.destination);
+        filter.connect(ctx.destination);
         noise.start();
       } catch (e) {
         // Ignora silenciosamente se o navegador bloquear áudio
       }
     }
 
+    // Poeira de luz ambiente
     (function createAmbientDust() {
       const container = document.getElementById("ambientParticles");
       for (let i = 0; i < 18; i++) {
@@ -894,6 +953,7 @@
       }
     })();
 
+    // Abrir envelope
     const envelopeBox = document.getElementById("envelopeBox");
     const envelopeWrapper = document.getElementById("envelopeWrapper");
     const letterSheet = document.getElementById("letterSheet");
@@ -901,6 +961,7 @@
     function openEnvelope() {
       if (envelopeBox.classList.contains("opening")) return;
       playPaperSound();
+      startAmbientPad(false);
       envelopeBox.classList.add("opening");
 
       setTimeout(() => {
@@ -917,8 +978,10 @@
       }
     });
 
+    // Desdobrar próximas partes
     function unfoldNext(foldNumber, btnElement) {
       playPaperSound();
+      startAmbientPad(false);
       btnElement.classList.add("done");
 
       const nextFold = document.getElementById("fold" + foldNumber);
@@ -931,54 +994,10 @@
       }
     }
 
-    // Reprodução da música do final a partir do ponto exato
-    const finalSong = document.getElementById("finalSong");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicStatus = document.getElementById("musicStatus");
-
-    function seekToChorusStart() {
-      if (!finalSong) return;
-      try {
-        if (finalSong.readyState >= 1) {
-          finalSong.currentTime = MUSIC_START_SECONDS;
-        } else {
-          finalSong.addEventListener("loadedmetadata", () => {
-            finalSong.currentTime = MUSIC_START_SECONDS;
-          }, { once: true });
-        }
-      } catch (e) {}
-    }
-
-    function startFinalSong(forcePlay = false) {
-      if (!finalSong) return;
-      if (forcePlay || finalSong.paused) {
-        seekToChorusStart();
-        finalSong.play().then(() => {
-          musicBtn.classList.add("playing");
-          musicBtn.textContent = "❚❚ Pausar música";
-          musicStatus.textContent = "♪ Tocando o trecho do final — Luan Santana (a partir de 01:28)";
-          musicStatus.classList.add("visible");
-        }).catch(() => {
-          musicStatus.textContent = "Não foi possível reproduzir o áudio agora (verifique o ficheiro musica.mp3).";
-          musicStatus.classList.add("visible");
-        });
-      }
-    }
-
-    function toggleFinalSong() {
-      if (!finalSong) return;
-      if (finalSong.paused) {
-        startFinalSong(true);
-      } else {
-        finalSong.pause();
-        musicBtn.classList.remove("playing");
-        musicBtn.textContent = "♪ Tocar música do final";
-      }
-    }
-
+    // Interação: Guardar promessa
     function keepPromise(event) {
       playPaperSound();
-      startFinalSong(false);
+      startAmbientPad(true);
 
       const btn = document.getElementById("promiseBtn");
       const msg = document.getElementById("promiseConfirmation");
@@ -1002,9 +1021,10 @@
       }
     }
 
+    // Mostrar/ocultar P.S.
     function togglePS() {
       playPaperSound();
-      startFinalSong(false);
+      startAmbientPad(false);
       const psBox = document.getElementById("psNoteBox");
       psBox.classList.toggle("visible");
     }

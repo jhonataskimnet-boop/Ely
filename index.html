@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Para Você — Uma Carta Guardada</title>
-  <!-- Favicon embutido em SVG para evitar erro 404 no console -->
+  <!-- Favicon embutido em SVG para evitar erro 404 na consola -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
   <style>
     :root {
@@ -650,8 +650,8 @@
 </head>
 <body>
 
-  <!-- EDITE AQUI: Se o arquivo na sua pasta tiver outro nome, altere o src abaixo -->
-  <audio id="finalSong" src="musica.mp3" preload="auto"></audio>
+  <!-- EDITE AQUI: Renomeia o ficheiro de áudio para musica.mp3 na mesma pasta do index.html ou ajusta o src -->
+  <audio id="finalSong" src="musica.mp3" preload="metadata"></audio>
 
   <!-- Poeira de luz ambiente na mesa -->
   <div class="ambient-particles" id="ambientParticles"></div>
@@ -677,7 +677,7 @@
 
         <div class="envelope-front-text">
           <!-- EDITE AQUI: Nome ou apelido dela -->
-          <div class="envelope-recipient">Raely</div>
+          <div class="envelope-recipient">Para você</div>
           <div class="envelope-subtitle">Abra devagar — foi escrito sem pressa</div>
         </div>
       </div>
@@ -835,7 +835,7 @@
   </main>
 
   <script>
-    // Ponto exato da estrofe ("Tem gente que tem cheiro de rosa, de avelã...") na faixa enviada
+    // Ponto de partida do trecho na faixa enviada[cite: 3]
     const MUSIC_START_SECONDS = 88;
 
     let soundEnabled = true;
@@ -956,8 +956,12 @@
         finalSong.play().then(() => {
           musicBtn.classList.add("playing");
           musicBtn.textContent = "❚❚ Pausar música";
+          musicStatus.textContent = "♪ Tocando o trecho do final — Luan Santana (a partir de 01:28)";
           musicStatus.classList.add("visible");
-        }).catch(() => {});
+        }).catch(() => {
+          musicStatus.textContent = "Não foi possível reproduzir o áudio agora (verifique o ficheiro musica.mp3).";
+          musicStatus.classList.add("visible");
+        });
       }
     }
 

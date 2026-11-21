@@ -145,7 +145,6 @@
       box-shadow: 0 34px 70px rgba(0, 0, 0, 0.72), inset 0 0 40px rgba(120, 95, 65, 0.2);
     }
 
-    /* Aba triangular superior do envelope */
     .envelope-flap {
       position: absolute;
       top: 0;
@@ -164,7 +163,6 @@
       transform: rotateX(180deg);
     }
 
-    /* Dobras laterais e inferior */
     .envelope-pocket {
       position: absolute;
       inset: 0;
@@ -174,7 +172,6 @@
       border-top: 1px solid rgba(120, 95, 65, 0.2);
     }
 
-    /* Texto na frente do envelope */
     .envelope-front-text {
       position: absolute;
       bottom: 24px;
@@ -199,7 +196,6 @@
       font-style: italic;
     }
 
-    /* Selo de cera */
     .wax-seal {
       position: absolute;
       top: 122px;
@@ -289,7 +285,6 @@
       }
     }
 
-    /* Cada dobra da folha */
     .fold-panel {
       position: relative;
       background-color: var(--paper-base);
@@ -301,7 +296,6 @@
       transform-origin: top center;
     }
 
-    /* Vinco de dobra entre painéis */
     .fold-panel + .fold-panel {
       border-top: 1px dashed rgba(130, 108, 82, 0.35);
       box-shadow: inset 0 14px 20px -14px rgba(58, 43, 28, 0.32);
@@ -329,7 +323,6 @@
       }
     }
 
-    /* Mancha sutil de xícara de café na primeira dobra */
     .coffee-stain {
       position: absolute;
       top: 18px;
@@ -351,7 +344,6 @@
       border: 1.5px solid rgba(138, 96, 56, 0.07);
     }
 
-    /* Cabeçalho da carta */
     .letter-meta {
       display: flex;
       justify-content: space-between;
@@ -385,7 +377,7 @@
 
     .letter-p {
       font-size: 16.5px;
-      line-height: 32px; /* Alinhado com as linhas pautadas do papel */
+      line-height: 32px;
       color: var(--ink-main);
       margin-bottom: 16px;
     }
@@ -394,14 +386,12 @@
       margin-bottom: 8px;
     }
 
-    /* Destaque emocional suave */
     .highlight-ink {
       background: linear-gradient(180deg, transparent 58%, rgba(212, 168, 106, 0.32) 58%);
       padding: 0 3px;
       font-weight: 600;
     }
 
-    /* Texto riscado de rascunho */
     .draft-strike {
       color: var(--ink-strike);
       text-decoration: line-through;
@@ -410,7 +400,6 @@
       margin-right: 4px;
     }
 
-    /* Anotação na margem do caderno */
     .margin-note {
       margin: 14px 0 18px;
       padding: 12px 16px;
@@ -423,7 +412,6 @@
       font-style: italic;
     }
 
-    /* Lista de promessas/detalhes */
     .vow-list {
       list-style: none;
       margin: 12px 0 18px;
@@ -446,7 +434,6 @@
       font-size: 13px;
     }
 
-    /* Assinatura final */
     .signature-block {
       margin-top: 24px;
       padding-top: 12px;
@@ -469,7 +456,6 @@
       color: var(--ink-main);
     }
 
-    /* Flor seca prensada decorativa (SVG inline) */
     .pressed-flower {
       width: 78px;
       height: 88px;
@@ -479,7 +465,6 @@
       flex-shrink: 0;
     }
 
-    /* Botão de desdobrar */
     .unfold-action {
       margin-top: 18px;
       display: flex;
@@ -512,7 +497,7 @@
       display: none;
     }
 
-    /* ==================== INTERAÇÃO FINAL: PROMESSA & P.S. ==================== */
+    /* ==================== INTERAÇÃO FINAL: MÚSICA, PROMESSA & P.S. ==================== */
     .final-interactive-area {
       margin-top: 26px;
       padding-top: 20px;
@@ -553,7 +538,7 @@
       box-shadow: 0 6px 18px rgba(53, 79, 47, 0.3);
     }
 
-    .btn-ps {
+    .btn-ps, .btn-music {
       background: transparent;
       border: 1px dashed #8b6f52;
       color: #5c4e43;
@@ -565,9 +550,28 @@
       transition: all 0.25s ease;
     }
 
-    .btn-ps:hover {
+    .btn-ps:hover, .btn-music:hover {
       background: rgba(168, 136, 98, 0.14);
       color: #2c241e;
+    }
+
+    .btn-music.playing {
+      background: rgba(142, 36, 36, 0.12);
+      border-style: solid;
+      border-color: #8e2424;
+      color: #6b1717;
+      font-weight: 600;
+    }
+
+    .music-status {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      font-style: italic;
+      display: none;
+    }
+
+    .music-status.visible {
+      display: block;
     }
 
     .ps-note-box {
@@ -603,7 +607,6 @@
       animation: unfoldPaper 0.5s ease forwards;
     }
 
-    /* Corações / faíscas suaves ao guardar promessa */
     .floating-spark {
       position: fixed;
       pointer-events: none;
@@ -617,7 +620,6 @@
       100% { transform: translateY(-130px) scale(1.25); opacity: 0; }
     }
 
-    /* Responsividade para celular */
     @media (max-width: 540px) {
       .fold-panel {
         padding: 26px 20px 26px 38px;
@@ -648,7 +650,11 @@
 </head>
 <body>
 
-  <!-- Partículas de luz na mesa -->
+  <!-- EDITE AQUI: Coloque o arquivo de áudio (ex: trecho-luan.mp3) na mesma pasta do index.html no GitHub -->
+  <!-- Se quiser começar direto no segundo exato desse trecho, altere MUSIC_START_SECONDS abaixo -->
+  <audio id="finalSong" src="trecho-luan.mp3" preload="auto"></audio>
+
+  <!-- Poeira de luz ambiente na mesa -->
   <div class="ambient-particles" id="ambientParticles"></div>
 
   <!-- Controle de som sutil de papel -->
@@ -665,15 +671,14 @@
         <div class="envelope-flap"></div>
         <div class="envelope-pocket"></div>
 
-        <!-- Selo de cera -->
         <div class="wax-seal">
           <!-- EDITE AQUI: Troque a letra inicial no selo de cera -->
-          <span class="wax-initial">J.S♥</span>
+          <span class="wax-initial">♥</span>
         </div>
 
         <div class="envelope-front-text">
           <!-- EDITE AQUI: Nome ou apelido dela -->
-          <div class="envelope-recipient">Raely</div>
+          <div class="envelope-recipient">Para você</div>
           <div class="envelope-subtitle">Abra devagar — foi escrito sem pressa</div>
         </div>
       </div>
@@ -782,10 +787,9 @@
           <div>
             <div class="closing-phrase">Com todo o meu carinho e verdade,</div>
             <!-- EDITE AQUI: Seu nome ou assinatura -->
-            <div class="signature-name">Jhonatas.</div>
+            <div class="signature-name">Jhonatas</div>
           </div>
 
-          <!-- Flor seca prensada decorativa -->
           <svg class="pressed-flower" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M50 112 C48 85, 52 60, 49 32" stroke="#6d7b52" stroke-width="2.2" stroke-linecap="round"/>
             <path d="M49 78 C36 72, 28 63, 32 56 C38 56, 45 66, 49 75" fill="#7d8c5e" opacity="0.85"/>
@@ -799,15 +803,22 @@
           </svg>
         </div>
 
-        <!-- Interação final: Guardar promessa + P.S. -->
+        <!-- Interação final: Guardar promessa + Música + P.S. -->
         <div class="final-interactive-area">
           <div class="final-buttons">
             <button class="btn-promise" id="promiseBtn" type="button" onclick="keepPromise(event)">
               ♥ Guardar essa promessa
             </button>
+            <button class="btn-music" id="musicBtn" type="button" onclick="toggleFinalSong()">
+              ♪ Tocar música do final
+            </button>
             <button class="btn-ps" type="button" onclick="togglePS()">
               Ler o P.S. dobrado no canto
             </button>
+          </div>
+
+          <div class="music-status" id="musicStatus">
+            ♪ Tocando a música do final — Te Vivo (Luan Santana)
           </div>
 
           <div class="promise-confirmation" id="promiseConfirmation">
@@ -825,7 +836,9 @@
   </main>
 
   <script>
-    // Estado do som sutil de papel gerado via Web Audio API (sem arquivos externos)
+    // EDITE AQUI: Tempo inicial em segundos caso use um arquivo completo (0 = começa do início do arquivo)
+    const MUSIC_START_SECONDS = 0;
+
     let soundEnabled = true;
     let audioCtx = null;
 
@@ -870,7 +883,6 @@
       }
     }
 
-    // Poeira de luz ambiente
     (function createAmbientDust() {
       const container = document.getElementById("ambientParticles");
       for (let i = 0; i < 18; i++) {
@@ -883,7 +895,6 @@
       }
     })();
 
-    // Abrir envelope
     const envelopeBox = document.getElementById("envelopeBox");
     const envelopeWrapper = document.getElementById("envelopeWrapper");
     const letterSheet = document.getElementById("letterSheet");
@@ -907,7 +918,6 @@
       }
     });
 
-    // Desdobrar próximas partes
     function unfoldNext(foldNumber, btnElement) {
       playPaperSound();
       btnElement.classList.add("done");
@@ -922,9 +932,42 @@
       }
     }
 
-    // Interação: Guardar promessa
+    // Reprodução da música do final
+    const finalSong = document.getElementById("finalSong");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicStatus = document.getElementById("musicStatus");
+
+    function startFinalSong(forcePlay = false) {
+      if (!finalSong) return;
+      if (MUSIC_START_SECONDS > 0 && finalSong.currentTime < MUSIC_START_SECONDS) {
+        finalSong.currentTime = MUSIC_START_SECONDS;
+      }
+      if (forcePlay || finalSong.paused) {
+        finalSong.play().then(() => {
+          musicBtn.classList.add("playing");
+          musicBtn.textContent = "❚❚ Pausar música";
+          musicStatus.classList.add("visible");
+        }).catch(() => {
+          // Caso o arquivo ainda não exista no repositório, mantém o botão disponível
+        });
+      }
+    }
+
+    function toggleFinalSong() {
+      if (!finalSong) return;
+      if (finalSong.paused) {
+        startFinalSong(true);
+      } else {
+        finalSong.pause();
+        musicBtn.classList.remove("playing");
+        musicBtn.textContent = "♪ Tocar música do final";
+      }
+    }
+
     function keepPromise(event) {
       playPaperSound();
+      startFinalSong(false);
+
       const btn = document.getElementById("promiseBtn");
       const msg = document.getElementById("promiseConfirmation");
 
@@ -932,7 +975,6 @@
       btn.textContent = "✓ Promessa guardada no coração";
       msg.classList.add("visible");
 
-      // Solta partículas suaves ao redor do clique
       const symbols = ["♥", "✦", "✿", "♥"];
       for (let i = 0; i < 8; i++) {
         const spark = document.createElement("span");
@@ -948,9 +990,9 @@
       }
     }
 
-    // Mostrar/ocultar P.S.
     function togglePS() {
       playPaperSound();
+      startFinalSong(false);
       const psBox = document.getElementById("psNoteBox");
       psBox.classList.toggle("visible");
     }

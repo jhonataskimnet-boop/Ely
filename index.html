@@ -429,4 +429,517 @@
       content: "✦";
       position: absolute;
       left: 0;
-      top
+      top: 0;
+      color: #a6763e;
+      font-size: 13px;
+    }
+
+    .signature-block {
+      margin-top: 24px;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .closing-phrase {
+      font-size: 16px;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+
+    .signature-name {
+      font-family: var(--font-script);
+      font-size: 28px;
+      color: var(--ink-main);
+    }
+
+    .pressed-flower {
+      width: 78px;
+      height: 88px;
+      opacity: 0.85;
+      transform: rotate(12deg);
+      filter: drop-shadow(0 3px 4px rgba(60, 45, 30, 0.2));
+      flex-shrink: 0;
+    }
+
+    .unfold-action {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-unfold {
+      background: #3a2e25;
+      color: #f7f1e3;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(42, 32, 24, 0.25);
+      transition: all 0.25s ease;
+    }
+
+    .btn-unfold:hover {
+      background: #261d17;
+      transform: translateY(-1px);
+    }
+
+    .btn-unfold.done {
+      display: none;
+    }
+
+    /* ==================== INTERAÇÃO FINAL: PROMESSA & P.S. ==================== */
+    .final-interactive-area {
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(130, 108, 82, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .final-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-promise {
+      background: linear-gradient(135deg, #8e2424 0%, #6b1717 100%);
+      color: #fdf6ec;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(142, 36, 36, 0.32);
+      transition: all 0.3s ease;
+    }
+
+    .btn-promise:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(142, 36, 36, 0.42);
+    }
+
+    .btn-promise.kept {
+      background: linear-gradient(135deg, #4b6b43 0%, #354f2f 100%);
+      box-shadow: 0 6px 18px rgba(53, 79, 47, 0.3);
+    }
+
+    .btn-ps {
+      background: transparent;
+      border: 1px dashed #8b6f52;
+      color: #5c4e43;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-ps:hover {
+      background: rgba(168, 136, 98, 0.14);
+      color: #2c241e;
+    }
+
+    .ps-note-box {
+      display: none;
+      background: #efe6d2;
+      border: 1px solid rgba(155, 126, 90, 0.35);
+      border-radius: 6px;
+      padding: 16px 18px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink-main);
+      box-shadow: 0 6px 16px rgba(45, 34, 22, 0.1);
+      animation: unfoldPaper 0.5s ease forwards;
+    }
+
+    .ps-note-box.visible {
+      display: block;
+    }
+
+    .promise-confirmation {
+      display: none;
+      font-size: 14.5px;
+      color: #3f5938;
+      font-style: italic;
+      padding: 10px 14px;
+      background: rgba(75, 107, 67, 0.1);
+      border-radius: 6px;
+      border-left: 3px solid #4b6b43;
+    }
+
+    .promise-confirmation.visible {
+      display: block;
+      animation: unfoldPaper 0.5s ease forwards;
+    }
+
+    .floating-spark {
+      position: fixed;
+      pointer-events: none;
+      font-size: 18px;
+      z-index: 999;
+      animation: riseSpark 2.2s ease-out forwards;
+    }
+
+    @keyframes riseSpark {
+      0% { transform: translateY(0) scale(0.7); opacity: 1; }
+      100% { transform: translateY(-130px) scale(1.25); opacity: 0; }
+    }
+
+    @media (max-width: 540px) {
+      .fold-panel {
+        padding: 26px 20px 26px 38px;
+        background-image:
+          linear-gradient(90deg, transparent 26px, var(--margin-line) 26px, var(--margin-line) 27px, transparent 27px),
+          repeating-linear-gradient(180deg, transparent 0px, transparent 31px, var(--rule-line) 31px, var(--rule-line) 32px);
+      }
+
+      .salutation {
+        font-size: 24px;
+      }
+
+      .letter-p {
+        font-size: 15.5px;
+      }
+
+      .envelope {
+        height: 255px;
+      }
+
+      .wax-seal {
+        top: 105px;
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Poeira de luz ambiente na mesa -->
+  <div class="ambient-particles" id="ambientParticles"></div>
+
+  <!-- Controle de som sutil de papel -->
+  <div class="top-bar">
+    <button class="sound-btn" id="soundToggle" type="button" title="Ativar ou silenciar som de papel">
+      📄 Papel: Ligado
+    </button>
+  </div>
+
+  <main class="stage">
+    <!-- ==================== ENVELOPE INICIAL ==================== -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+      <div class="envelope" id="envelopeBox" role="button" tabindex="0" aria-label="Abrir envelope">
+        <div class="envelope-flap"></div>
+        <div class="envelope-pocket"></div>
+
+        <div class="wax-seal">
+          <!-- EDITE AQUI: Troque a letra inicial no selo de cera -->
+          <span class="wax-initial">♥</span>
+        </div>
+
+        <div class="envelope-front-text">
+          <!-- EDITE AQUI: Nome ou apelido dela -->
+          <div class="envelope-recipient">Raely</div>
+          <div class="envelope-subtitle">Abra devagar — foi escrito sem pressa</div>
+        </div>
+      </div>
+      <p class="open-hint">Toque no selo de cera para abrir a carta</p>
+    </div>
+
+    <!-- ==================== CARTA DOBRADA (4 ATOS) ==================== -->
+    <article class="letter-sheet" id="letterSheet">
+
+      <!-- DOBRA 1: ABERTURA -->
+      <section class="fold-panel" id="fold1">
+        <div class="coffee-stain" aria-hidden="true"></div>
+
+        <div class="letter-meta">
+          <!-- EDITE AQUI: Data ou lugar -->
+          <span>Escrito num momento de calma</span>
+          <span class="fold-badge">Parte 1 de 4</span>
+        </div>
+
+        <!-- EDITE AQUI: Saudação inicial -->
+        <h1 class="salutation">Oi, meu bem,</h1>
+
+        <!-- EDITE AQUI: Texto da 1ª dobra -->
+        <p class="letter-p">
+          Eu quis fazer algo diferente hoje. Em vez de mandar uma mensagem rápida que se perde no meio da correria do dia, preferi dobrar estas palavras aqui — como uma carta de verdade, daquelas que a gente guarda na gaveta para reler quando precisa lembrar do que é real.
+        </p>
+        <p class="letter-p">
+          Às vezes a rotina engole o que a gente sente, ou a gente acha que o outro já sabe. Mas tem coisas que não devem ficar só subentendidas: <span class="highlight-ink">eu quero que você tenha certeza absoluta do lugar que ocupa na minha vida.</span>
+        </p>
+
+        <div class="unfold-action">
+          <button class="btn-unfold" type="button" onclick="unfoldNext(2, this)">
+            Desdobrar a próxima parte ↓
+          </button>
+        </div>
+      </section>
+
+      <!-- DOBRA 2: NOS DIAS DIFÍCEIS -->
+      <section class="fold-panel folded" id="fold2">
+        <div class="letter-meta">
+          <span>Sobre os dias leves e os dias pesados</span>
+          <span class="fold-badge">Parte 2 de 4</span>
+        </div>
+
+        <!-- EDITE AQUI: Texto da 2ª dobra -->
+        <p class="letter-p">
+          É muito fácil gostar de alguém quando tudo está dando certo, quando o dia está leve e o sorriso vem fácil. Mas o que eu sinto por você não depende de céu limpo.
+        </p>
+        <p class="letter-p">
+          Eu sei que existem dias difíceis — aqueles em que o cansaço bate, a cabeça pesa, os problemas parecem maiores do que são ou dá vontade de ficar em silêncio. E é exatamente nesses momentos que eu quero que você se lembre disto: <span class="highlight-ink">não importa a dificuldade ou o tamanho do momento difícil, eu vou sempre amar você.</span>
+        </p>
+
+        <div class="margin-note">
+          “Quando o mundo parecer pesado demais para carregar sozinha, você não precisa fingir que está tudo bem comigo. Eu não vou a lugar nenhum — eu fico, eu escuto e eu caminho do seu lado.”
+        </div>
+
+        <div class="unfold-action">
+          <button class="btn-unfold" type="button" onclick="unfoldNext(3, this)">
+            Continuar desdobrando ↓
+          </button>
+        </div>
+      </section>
+
+      <!-- DOBRA 3: OS DETALHES E RASCUNHOS -->
+      <section class="fold-panel folded" id="fold3">
+        <div class="letter-meta">
+          <span>Rascunhos sinceros da minha cabeça</span>
+          <span class="fold-badge">Parte 3 de 4</span>
+        </div>
+
+        <!-- EDITE AQUI: Texto com rascunhos riscados -->
+        <p class="letter-p">
+          Tentei escrever isso de várias formas antes de chegar aqui. Comecei tentando fazer <del class="draft-strike">um texto bonito e cheio de palavras difíceis</del> algo que impressionasse, mas percebi que o mais verdadeiro é o mais simples:
+        </p>
+
+        <ul class="vow-list">
+          <li>Eu amo o seu jeito de ser, inclusive nas partes que você acha imperfeitas.</li>
+          <li>Nos dias bons, eu quero ser o primeiro a celebrar cada conquista sua.</li>
+          <li>Nos dias difíceis, eu quero ser o seu abrigo seguro, sem cobrança e sem pressa.</li>
+          <li>Mesmo quando o tempo mudar ou a rotina apertar, o meu cuidado por você continua intacto.</li>
+        </ul>
+
+        <div class="unfold-action">
+          <button class="btn-unfold" type="button" onclick="unfoldNext(4, this)">
+            Abrir a última dobra ↓
+          </button>
+        </div>
+      </section>
+
+      <!-- DOBRA 4: A PROMESSA FINAL -->
+      <section class="fold-panel folded" id="fold4">
+        <div class="letter-meta">
+          <span>O que fica guardado</span>
+          <span class="fold-badge">Parte 4 de 4</span>
+        </div>
+
+        <!-- EDITE AQUI: Texto final e assinatura -->
+        <p class="letter-p">
+          Se algum dia a dúvida bater, se a tempestade parecer longa demais ou se você só precisar de um lembrete silencioso de que é profundamente amada, volta aqui.
+        </p>
+        <p class="letter-p">
+          <span class="highlight-ink">Em qualquer fase, em qualquer cenário, aconteça o que acontecer: eu escolho você, eu cuido de você e eu sempre vou te amar.</span>
+        </p>
+
+        <div class="signature-block">
+          <div>
+            <div class="closing-phrase">Com todo o meu carinho e verdade,</div>
+            <!-- EDITE AQUI: Seu nome ou assinatura -->
+            <div class="signature-name">Jhonatas</div>
+          </div>
+
+          <svg class="pressed-flower" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M50 112 C48 85, 52 60, 49 32" stroke="#6d7b52" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M49 78 C36 72, 28 63, 32 56 C38 56, 45 66, 49 75" fill="#7d8c5e" opacity="0.85"/>
+            <path d="M50 64 C63 57, 72 48, 67 41 C61 42, 54 52, 50 61" fill="#7d8c5e" opacity="0.85"/>
+            <ellipse cx="49" cy="22" rx="7" ry="13" fill="#c98a7c" opacity="0.9"/>
+            <ellipse cx="37" cy="31" rx="12" ry="7" transform="rotate(-25 37 31)" fill="#d69c8e" opacity="0.9"/>
+            <ellipse cx="61" cy="31" rx="12" ry="7" transform="rotate(25 61 31)" fill="#d69c8e" opacity="0.9"/>
+            <ellipse cx="40" cy="42" rx="11" ry="6.5" transform="rotate(30 40 42)" fill="#bf7d6f" opacity="0.88"/>
+            <ellipse cx="58" cy="42" rx="11" ry="6.5" transform="rotate(-30 58 42)" fill="#bf7d6f" opacity="0.88"/>
+            <circle cx="49" cy="33" r="5.5" fill="#8f5b38"/>
+          </svg>
+        </div>
+
+        <!-- Interação final: Guardar promessa + P.S. -->
+        <div class="final-interactive-area">
+          <div class="final-buttons">
+            <button class="btn-promise" id="promiseBtn" type="button" onclick="keepPromise(event)">
+              ♥ Guardar essa promessa
+            </button>
+            <button class="btn-ps" type="button" onclick="togglePS()">
+              Ler o P.S. dobrado no canto
+            </button>
+          </div>
+
+          <div class="promise-confirmation" id="promiseConfirmation">
+            Promessa guardada. Lembre-se sempre: nos dias de sol ou nos dias de chuva, você nunca está sozinha.
+          </div>
+
+          <!-- EDITE AQUI: Bilhete secreto P.S. -->
+          <div class="ps-note-box" id="psNoteBox">
+            <strong>P.S.:</strong> Obrigado por existir exatamente do jeito que você é. Quando quiser conversar, desabafar ou só ficar em silêncio acompanhada, eu estou aqui.
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <script>
+    let paperSoundEnabled = true;
+    let audioCtx = null;
+
+    const soundToggle = document.getElementById("soundToggle");
+
+    function ensureAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    soundToggle.addEventListener("click", () => {
+      paperSoundEnabled = !paperSoundEnabled;
+      soundToggle.textContent = paperSoundEnabled ? "📄 Papel: Ligado" : "📄 Papel: Mudo";
+    });
+
+    function playPaperSound() {
+      if (!paperSoundEnabled) return;
+      try {
+        const ctx = ensureAudioContext();
+        const duration = 0.22;
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          const envelope = Math.sin((i / bufferSize) * Math.PI);
+          data[i] = (Math.random() * 2 - 1) * envelope * 0.14;
+        }
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.value = 1350;
+        filter.Q.value = 0.9;
+
+        noise.connect(filter);
+        filter.connect(ctx.destination);
+        noise.start();
+      } catch (e) {
+        // Ignora silenciosamente se o navegador bloquear áudio
+      }
+    }
+
+    // Poeira de luz ambiente
+    (function createAmbientDust() {
+      const container = document.getElementById("ambientParticles");
+      for (let i = 0; i < 18; i++) {
+        const dot = document.createElement("span");
+        dot.className = "ambient-dot";
+        dot.style.left = Math.random() * 100 + "%";
+        dot.style.animationDuration = (12 + Math.random() * 14) + "s";
+        dot.style.animationDelay = (-Math.random() * 15) + "s";
+        container.appendChild(dot);
+      }
+    })();
+
+    // Abrir envelope
+    const envelopeBox = document.getElementById("envelopeBox");
+    const envelopeWrapper = document.getElementById("envelopeWrapper");
+    const letterSheet = document.getElementById("letterSheet");
+
+    function openEnvelope() {
+      if (envelopeBox.classList.contains("opening")) return;
+      playPaperSound();
+      envelopeBox.classList.add("opening");
+
+      setTimeout(() => {
+        envelopeWrapper.classList.add("hidden");
+        letterSheet.classList.add("visible");
+      }, 680);
+    }
+
+    envelopeBox.addEventListener("click", openEnvelope);
+    envelopeBox.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openEnvelope();
+      }
+    });
+
+    // Desdobrar próximas partes
+    function unfoldNext(foldNumber, btnElement) {
+      playPaperSound();
+      btnElement.classList.add("done");
+
+      const nextFold = document.getElementById("fold" + foldNumber);
+      if (nextFold) {
+        nextFold.classList.remove("folded");
+        nextFold.classList.add("unfolding");
+        setTimeout(() => {
+          nextFold.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 120);
+      }
+    }
+
+    // Interação: Guardar promessa
+    function keepPromise(event) {
+      playPaperSound();
+
+      const btn = document.getElementById("promiseBtn");
+      const msg = document.getElementById("promiseConfirmation");
+
+      btn.classList.add("kept");
+      btn.textContent = "✓ Promessa guardada no coração";
+      msg.classList.add("visible");
+
+      const symbols = ["♥", "✦", "✿", "♥"];
+      for (let i = 0; i < 8; i++) {
+        const spark = document.createElement("span");
+        spark.className = "floating-spark";
+        spark.textContent = symbols[i % symbols.length];
+        spark.style.color = i % 2 === 0 ? "#b83b3b" : "#c59b5f";
+        const offsetX = (Math.random() - 0.5) * 120;
+        const offsetY = (Math.random() - 0.5) * 30;
+        spark.style.left = (event.clientX + offsetX) + "px";
+        spark.style.top = (event.clientY + offsetY) + "px";
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 2200);
+      }
+    }
+
+    // Mostrar/ocultar P.S.
+    function togglePS() {
+      playPaperSound();
+      const psBox = document.getElementById("psNoteBox");
+      psBox.classList.toggle("visible");
+    }
+  </script>
+</body>
+</html>
